@@ -1,0 +1,114 @@
+pipeline
+{
+    agent any
+    parameters {
+          choice choices: ['development', 'stage', 'qa', 'prod', 'uat'], description: 'select the branch to build', name: 'BranchName'
+        choice(name: 'DEPLOY_TO_TOMCAT', choices: ['YES', 'NO'], description: 'Deploy to Tomcat?')
+        }
+    tools
+    {
+        maven "mave-3.9.9"
+    }
+    
+    stages
+    {
+                stage('Notify Start') {
+            steps {
+                script {
+                    notifyBuild('STARTED')
+                }
+            }
+        }
+        
+        stage('git checkout')
+        {
+            steps
+            {
+                git branch: "${params.BranchName}", url: 'https://github.com/neworg656/maven-webapplication-project.git'
+            }
+        }
+        stage('compile')
+        {
+            steps
+            {
+                 sh "mvn clean compile" 
+            }
+        }
+        stage('deploy')
+        {
+            steps
+            {
+                sh "mvn clean package"
+            }
+        }
+        stage('SQ report')
+        {
+            steps
+            {
+                sh "mvn sonar:sonar"
+            }
+        }
+        stage('uplos into nexus')
+        {
+            steps
+            {
+                sh "mvn clean deploy"
+            }
+        }
+        stage('deploy on tomcat')
+        {
+            when {
+                 expression { return params.DEPLOY_TO_TOMCAT == 'YES' }
+          }
+            steps
+            {
+                echo "Deploying to Tomcat for branch: ${params.BranchName}"
+                sh """
+                curl -u tomcat:1234 \
+       --upload-file /var/lib/jenkins/workspace/jio-declarative-pl/target/maven-web-application.war \
+        "http://13.235.70.135:8080/manager/text/deploy?path=/maven-web-application&update=true"
+          
+        """
+            }
+        }
+    }// stage ending
+    post
+    {
+        success
+        {
+          script
+          {
+                 notifyBuild(currentBuild.result)
+          }
+        }
+        failure
+        {
+            script
+            {
+                notifyBuild(currentBuild.result)
+            }
+        }
+    }
+}// pl ending
+
+// Notification method
+def notifyBuild(String buildStatus = 'STARTED') {
+    buildStatus = buildStatus ?: 'SUCCESS'
+
+    def colorCode
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def summary = "${subject} (${env.BUILD_URL})"
+
+    switch (buildStatus) {
+        case 'STARTED':
+            colorCode = '#FFFF00' // Yellow
+            break
+        case 'SUCCESS':
+            colorCode = '#00FF00' // Green
+            break
+        default:
+            colorCode = '#FF0000' // Red
+    }
+
+    slackSend(color: colorCode, message: summary, channel: '#jio-devops')
+}
