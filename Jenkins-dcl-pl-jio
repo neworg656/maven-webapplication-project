@@ -48,7 +48,7 @@ pipeline
                 sh "mvn sonar:sonar"
             }
         }
-        stage('uplos into nexus')
+        stage('upload into nexus')
         {
             steps
             {
@@ -66,7 +66,7 @@ pipeline
                 sh """
                 curl -u tomcat:1234 \
        --upload-file /var/lib/jenkins/workspace/jio-declarative-pl/target/maven-web-application.war \
-        "http://13.235.70.135:8080/manager/text/deploy?path=/maven-web-application&update=true"
+        "http://65.2.150.100:8080/manager/text/deploy?path=/maven-web-application&update=true"
           
         """
             }
