@@ -29,7 +29,7 @@
 <body>
     <div class="container">
         <h1> Welcome to My DevOps Project</h1>
-        <p><strong>Deployed via:</strong> Jenkins CI/CD Pipeline</p>
+        <p><strong>Deployed via:</strong> Jenkins Freestyle Job</p>
         <p><strong>Build Tool:</strong> Maven</p>
         <p><strong>Server:</strong> Apache Tomcat</p>
         <p><strong>Created by:</strong> Naga Sankar</p>
