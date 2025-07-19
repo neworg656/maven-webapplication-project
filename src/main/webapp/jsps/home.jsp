@@ -1,54 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.net.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>KK FUNDA Home Page</title>
-<link href="images/kkfunda.jpg" rel="icon">
-</head>
+    <title>Welcome | Naga Sankar - DevOps Project</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            text-align: center;
+            padding-top: 60px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .container {
+            background: #ffffff;
+            display: inline-block;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-<h1 align="center">Welcome to KK AWS</h1>
-<h1 align="center"> KK Devops & SRE </h1>
-<hr>
-<br>
-	<h1><h3> Server Side IP Address </h3><br>
+    <div class="container">
+        <h1> Welcome to My DevOps Project</h1>
+        <p><strong>Deployed via:</strong> Jenkins CI/CD Pipeline</p>
+        <p><strong>Build Tool:</strong> Maven</p>
+        <p><strong>Server:</strong> Apache Tomcat</p>
+        <p><strong>Created by:</strong> Naga Sankar</p>
+    </div>
 
-<% 
-String ip = "";
-InetAddress inetAddress = InetAddress.getLocalHost();
-ip = inetAddress.getHostAddress();
-out.println("Server Host Name :: "+inetAddress.getHostName()); 
-%>
-<br>
-<%out.println("Server IP Address :: "+ip);%>
-</h1>
-<br>
-<h1><h3> Client Side IP Address </h3><br>
-<%out.print( "Client IP Address :: " + request.getRemoteAddr() ); %><br>
-<%out.print( "Client Name Host :: "+ request.getRemoteHost() );%><br></h1>
-<hr>
-<div style="text-align: center;">
-	<span>
-		<img src="images/kkfunda.jpg" alt="" width="100">
-	</span>
-	<span style="font-weight: bold;">
-		KK FUNDA, 
-		Martha Halli, Banglore,
-		Bangalore,
-		+91-9676831734,+91-9676831734
-		kkeducationblr@gmail.com
-		<br>
-		<a href="mailto:kkeducation@gmail.com">Mail to KK FUNDA</a>
-	</span>
-</div>
-<hr>
-	<p> Service : <a href="services/employee/getEmployeeDetails">Get Employee Details </p>
-<hr>
-<hr>
-<p align=center>KK FUNDA Training, Development Center.</p>
-<p align=center><small>Copyrights 2024 by <a href="google.com/">KK FUNDA</a> </small></p>
-
+    <footer>
+        &copy; 2025 Naga Sankar | DevOps Portfolio
+    </footer>
 </body>
 </html>
